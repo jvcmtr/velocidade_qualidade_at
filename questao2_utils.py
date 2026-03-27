@@ -28,47 +28,16 @@ def aleatorio(n_elementos):
         arr.append(random.randrange(n_elementos*2))
     return arr
 
+def all_possible_combinations(**kwargs):
+    combinations = [{}]
+    for k, v in kwargs.items():
+        temp = []
+        for c in combinations:
+            for i in v:
+                temp.append({**c, k : i})
+        combinations = temp
+    return combinations
 
-def get_test_cases(algoritimos):
-    TAMANHOS=[1000, 10_000, 25_000]#, 50_000 ,100_000]
-    GERADORES=[ordenado, reverso, semiordenado, aleatorio]
-    
-    cases = []
-    for t in TAMANHOS:
-        for a in algoritimos:
-            for g in GERADORES:
-                cases.append({"size":t, "type":g.__name__, "data":g(t), "algorithm" : a})
-    return cases
-
-
-def print_table(arr):
-    BUFFER = 1
-    col_width = {x:0 for x in range(len(arr))}
-    columns = range(len(arr[0]))
-
-    for row in arr:
-        for col_id in columns:
-            if col_width[col_id] < len(row[col_id]):
-                col_width[col_id] = len(row[col_id])
-
-    def print_line(columns, start, fill, dividers, end, contents=None):
-        buff = fill * BUFFER
-         
-        cells = []
-        for col in columns:
-            s = contents[col] if contents else ""
-            offset = fill * (col_width[col] - len(s))
-            cells.append(s + offset)
-    
-        separators = buff + dividers + buff
-        columns = separators.join(cells)
-
-        print(start + buff + columns + buff + end)
-
-    print_line(columns,"┌", "─", "┬", "┐") 
-    for ln in arr:
-        print_line(columns, "│", " ", "│", "│",  ln)
-        if ln != arr[-1]:
-            print_line(columns,"├", "─", "┼", "┤" )
-    print_line(columns, "└", "─", "┴", "┘")
-
+def get_test_cases(tamanhos, geradores, algoritimos):
+    cases = all_possible_combinations(TAMANHO=tamanhos, GERADORES=geradores, ALGORITIMO=algoritimos)  
+    return [{**c, "DATA": c["GERADORES"](c["TAMANHO"])} for c in cases]
