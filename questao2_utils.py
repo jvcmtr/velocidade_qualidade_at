@@ -30,7 +30,7 @@ def aleatorio(n_elementos):
 
 
 def get_test_cases(algoritimos):
-    TAMANHOS=[100]#0, 10_000 25_000, 50_000, 100_000]
+    TAMANHOS=[1000, 10_000, 25_000]#, 50_000 ,100_000]
     GERADORES=[ordenado, reverso, semiordenado, aleatorio]
     
     cases = []
