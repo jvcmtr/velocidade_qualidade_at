@@ -1,7 +1,7 @@
 
 def print_table(arr):
     BUFFER = 1
-    col_width = {x:0 for x in range(len(arr))}
+    col_width = {x:0 for x in range(len(arr[0]))}
     columns = range(len(arr[0]))
 
     for row in arr:

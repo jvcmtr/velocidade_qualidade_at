@@ -1,6 +1,9 @@
 from questao2_utils import *
 import time
 from utils import *
+import sys
+sys.setrecursionlimit(25000)
+
 
 def bubble_sort(arr):
     comparacoes = 0
@@ -36,6 +39,10 @@ def selection_sort(arr):
     
     return comparacoes, operacoes
     
+class BinaryTree():
+    pass
+    
+
 def insertion_sort(arr):
     comparacoes = 0
     operacoes = 0
@@ -47,7 +54,64 @@ def insertion_sort(arr):
                 troca(arr, i, i-1)
 
     return comparacoes, operacoes
-  
+
+def t():
+    i = {}
+    t2(i)
+    print(i)
+
+def t2(n):
+    n["val"] = 20
+
+def binary_search_sort(arr):
+    tree = {}
+    comparacoes = 0
+    operacoes = 0
+
+    for i in arr:
+        comparacoes, operacoes = insert(tree, i, comparacoes, operacoes)
+
+    s, comparacoes, operacoes = sort(tree, comparacoes, operacoes)
+    
+    # Para manter o mesmo funcionamento dos outros metodos de ordenação, 
+    # Sobreescreve a instancia original
+    arr.clear()
+    arr.extend(s)
+
+    return comparacoes, operacoes
+
+def insert(el, valor, comparacoes, operacoes):
+    comparacoes+= 1
+    if not el:
+        operacoes += 1
+        # Altera a instancia original
+        el.update({"val":valor, "l":{}, "r":{}})
+        return comparacoes, operacoes
+
+    comparacoes+= 1
+    if valor >= el['val']:
+        comparacoes, operacoes = insert(el['r'], valor, comparacoes, operacoes)
+        return comparacoes, operacoes
+    comparacoes+= 1
+    if valor < el['val']:
+        comparacoes, operacoes= insert(el['l'], valor,comparacoes, operacoes)
+        return comparacoes, operacoes
+
+
+def sort(el, comparacoes, operacoes):
+    comparacoes+= 1
+    if not el:
+        return [], comparacoes, operacoes
+        
+    l, comp, op, = sort(el['l'], comparacoes, operacoes)
+    r, comp2, op2 = sort(el['r'], 0, 0)
+    return [
+        *l, 
+        el['val'], 
+        *r
+    ], comp+comp2 , op + op2
+
+
 def test(algoritimos, tamanhos, geradores):
 
     tempo_total = 0
@@ -77,12 +141,23 @@ def test(algoritimos, tamanhos, geradores):
     return dt, tempo_total  
 
 if __name__ == "__main__":
-    ALGORITIMOS = [bubble_sort, selection_sort, insertion_sort]
+    t()
+    ALGORITIMOS = [bubble_sort, selection_sort, insertion_sort, binary_search_sort]
     TAMANHOS=[1000, 10_000, 25_000, 50_000 ,100_000]
     GERADORES=[ordenado, reverso, semiordenado, aleatorio]
 
-    dt, tempo_total = test(ALGORITIMOS, TAMANHOS[:-4], GERADORES )
+    # Teste 1
+    # dt, tempo_total = test(ALGORITIMOS, TAMANHOS[:-2], GERADORES )
+    # relacao = ((25**2)+(10**2)+(1**2))/((100**2)+(50**2))
+    # estimativa = tempo_total / relacao
+    # print(f"Estimativa de tempo para o computar vetores com 100.000 e 50.000 items: {(estimativa/60/60):.2f} Horas")     
 
-    relacao = ((25**2)+(10**2)+(1**2))/((100**2)+(50**2))
-    estimativa = tempo_total / relacao
-    print(f"Estimativa de tempo para o computar vetores com 100.000 e 50.000 items: {(estimativa/60/60):.2f} Horas")      
+    # Teste 2
+    arr = [*range(10)][::-1]
+    print(f"Array teste : {arr}")
+    comp, op = binary_search_sort(arr)
+    print(f"Resultado teste : {arr}")
+    print(f"Comparações: {comp} ; \t Operações: {op}")
+
+
+    dt, tempo_total = test([binary_search_sort, bubble_sort], TAMANHOS[:-3], GERADORES )
