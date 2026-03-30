@@ -37,3 +37,8 @@ def save_table(arr, path):
 
     with open(path, "w", encoding="utf-8") as f:
         f.write(data)
+
+def troca(arr, a, b):
+    val = arr[a]
+    arr[a] = arr[b]
+    arr[b] = val

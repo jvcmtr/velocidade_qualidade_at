@@ -1,10 +1,5 @@
 import random
 
-def troca(arr, a, b):
-    val = arr[a]
-    arr[a] = arr[b]
-    arr[b] = val
-
 def ordenado(n_elementos):
     return([*range(1, n_elementos+1)])
 
