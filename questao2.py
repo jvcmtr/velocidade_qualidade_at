@@ -2,7 +2,7 @@ from questao2_utils import *
 import time
 from utils import *
 import sys
-sys.setrecursionlimit(25000)
+sys.setrecursionlimit(50000)
 
 
 def bubble_sort(arr):
@@ -38,10 +38,6 @@ def selection_sort(arr):
             troca(arr, min_idx, i)
     
     return comparacoes, operacoes
-    
-class BinaryTree():
-    pass
-    
 
 def insertion_sort(arr):
     comparacoes = 0
@@ -55,15 +51,10 @@ def insertion_sort(arr):
 
     return comparacoes, operacoes
 
-def t():
-    i = {}
-    t2(i)
-    print(i)
-
-def t2(n):
-    n["val"] = 20
-
 def binary_search_sort(arr):
+    # Neste metodo não foi implementado balanceamento da arvore, 
+    # já que ele não traz nenhum valor para a ordenação dos elementos, 
+    # O balanceamento de uma arvore binaria é importante para a seleção de itens, não para a ordenação
     tree = {}
     comparacoes = 0
     operacoes = 0
@@ -73,7 +64,7 @@ def binary_search_sort(arr):
 
     s, comparacoes, operacoes = sort(tree, comparacoes, operacoes)
     
-    # Para manter o mesmo funcionamento dos outros metodos de ordenação, 
+    # Para manter a mesma assinatura dos outros metodos de ordenação, 
     # Sobreescreve a instancia original
     arr.clear()
     arr.extend(s)
@@ -112,12 +103,14 @@ def sort(el, comparacoes, operacoes):
     ], comp+comp2 , op + op2
 
 
-def test(algoritimos, tamanhos, geradores):
+def test(algoritimos, tamanhos, geradores, verbose=False, print_output=True):
 
     tempo_total = 0
     cases = get_test_cases(tamanhos, geradores, algoritimos) 
     
     dt = []
+    output_dt = []
+    output_dt.append(["N_itens" , "Tipo de vetor" , "Algoritmo", "Comparacoes", "Comparacoes/N", "Operacoes", "Operacoes/N", "Duração (sec)"])
     dt.append(["N_itens" , "Tipo de vetor" , "Algoritmo", "Comparacoes (relativo)","Operacoes (relativo)", "Duração"])
 
     for i in range(len(cases)):
@@ -132,32 +125,29 @@ def test(algoritimos, tamanhos, geradores):
         delta = time.time() - start
         tempo_total += delta
 
-        dt.append([f"{size}", type, algotitimo, f"{comparacoes} ({comparacoes/size:.2f})", f"{operacoes} ({operacoes/size:.2f})", f"{delta:.2f}s" ])
-        print(f"Caso de teste {i}/{len(cases)} executado em {delta:.3f} segundos. \t n_itens\"{size}\"; \t tipo de vetor:\"{type}\"; \t  algotitimo:\"{algotitimo}\";")
+        output_dt.append([size, type, algotitimo, comparacoes, f"{comparacoes/size:.4f}", operacoes, f"{operacoes/size:.4f}", f"{delta:.4f}" ])
+        if(print_output):
+            dt.append([f"{size}", type, algotitimo, f"{comparacoes} ({comparacoes/size:.2f})", f"{operacoes} ({operacoes/size:.2f})", f"{delta:.2f}s" ])
+        if(verbose):
+            print(f"Caso de teste {i+1}/{len(cases)} executado em {delta:.3f} segundos. \t n_itens\"{size}\"; \t tipo de vetor:\"{type}\"; \t  algotitimo:\"{algotitimo}\";")
     
-    print_table(dt)  
-    print(f"\nTempo total de computação: {(tempo_total/60):.2f}min")
+    if print_output:
+        print_table(dt)
+    if verbose:  
+        print(f"\nTempo total de computação: {(tempo_total/60):.2f}min")
 
-    return dt, tempo_total  
+    return output_dt, tempo_total  
 
 if __name__ == "__main__":
-    t()
     ALGORITIMOS = [bubble_sort, selection_sort, insertion_sort, binary_search_sort]
     TAMANHOS=[1000, 10_000, 25_000, 50_000 ,100_000]
     GERADORES=[ordenado, reverso, semiordenado, aleatorio]
 
     # Teste 1
-    # dt, tempo_total = test(ALGORITIMOS, TAMANHOS[:-2], GERADORES )
-    # relacao = ((25**2)+(10**2)+(1**2))/((100**2)+(50**2))
-    # estimativa = tempo_total / relacao
-    # print(f"Estimativa de tempo para o computar vetores com 100.000 e 50.000 items: {(estimativa/60/60):.2f} Horas")     
-
-    # Teste 2
-    arr = [*range(10)][::-1]
-    print(f"Array teste : {arr}")
-    comp, op = binary_search_sort(arr)
-    print(f"Resultado teste : {arr}")
-    print(f"Comparações: {comp} ; \t Operações: {op}")
-
-
-    dt, tempo_total = test([binary_search_sort, bubble_sort], TAMANHOS[:-3], GERADORES )
+    dt, tempo_total = test(ALGORITIMOS, TAMANHOS[:-2], GERADORES, verbose=True)
+    
+    relacao = ((25**2)+(10**2)+(1**2))/((100**2)+(50**2)) # Presume-se aqui que todos os algoritmos são O(n^2)
+    estimativa = tempo_total / relacao
+    print(f"Estimativa de tempo para o computar vetores com 100.000 e 50.000 items: {(estimativa/60/60):.2f} Horas") 
+    
+    save_table(dt, "questao2_output.csv")    

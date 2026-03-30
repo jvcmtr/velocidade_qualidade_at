@@ -30,3 +30,10 @@ def print_table(arr):
             print_line(columns,"├", "─", "┼", "┤" )
     print_line(columns, "└", "─", "┴", "┘")
 
+def save_table(arr, path):
+    data = "\n".join(
+        [", ".join([str(a).strip() for a in x]) for x in arr]
+    )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(data)
