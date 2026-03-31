@@ -14,7 +14,7 @@ class NullNode:
         return -1
 
     def delete(self, key):
-        return self
+        return self, False
 
     def insert(self, value):
         return Node(value)
@@ -48,15 +48,15 @@ class Node:
 
     def delete(self, value):
         if self.value == value:
-            return self.next
-        self.next = self.next.delete(value)
-        return self
+            return self.next, True
+        self.next, deleted = self.next.delete(value)
+        return self, deleted
 
     def delete_at(self, depth):
         if depth == 0:
-            return self.next
-        self.next = self.next.delete_at(depth-1)
-        return self
+            return self.next, True
+        self.next, deleted = self.next.delete_at(depth-1)
+        return self, deleted
 
     def insert(self, value):
         self.next = self.next.insert(value)
@@ -95,6 +95,7 @@ class SinglyLinkedList:
     # Custo esperado `O(n)`
     def insert_at(self, index, value):
         self.head = self.head.insert_at(value, index)
+        self._size += 1
        
     # Custo esperado `O(n)`
     def search(self, value):
@@ -102,11 +103,15 @@ class SinglyLinkedList:
 
     # Custo esperado `O(n)`
     def delete(self, value):
-        self.head = self.head.delete(value)
+        self.head, deleted = self.head.delete(value)
+        if deleted:
+            self._size -= 1
 
     # Custo esperado `O(n)`
     def delete_at(self, index):
-        self.head = self.head.delete_at(index)
+        self.head, deleted = self.head.delete_at(index)
+        if deleted:
+            self._size -= 1
 
 if __name__ == "__main__":
 
