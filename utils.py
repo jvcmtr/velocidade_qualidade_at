@@ -6,15 +6,15 @@ def print_table(arr):
 
     for row in arr:
         for col_id in columns:
-            if col_width[col_id] < len(row[col_id]):
-                col_width[col_id] = len(row[col_id])
+            if col_width[col_id] < len(str(row[col_id])):
+                col_width[col_id] = len(str(row[col_id]))
 
     def print_line(columns, start, fill, dividers, end, contents=None):
         buff = fill * BUFFER
          
         cells = []
         for col in columns:
-            s = contents[col] if contents else ""
+            s = str(contents[col]) if contents else ""
             offset = fill * (col_width[col] - len(s))
             cells.append(s + offset)
     
