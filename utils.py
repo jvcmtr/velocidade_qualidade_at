@@ -38,6 +38,17 @@ def save_table(arr, path):
     with open(path, "w", encoding="utf-8") as f:
         f.write(data)
 
+def all_possible_combinations(**kwargs):
+    combinations = [{}]
+    for k, v in kwargs.items():
+        temp = []
+        for c in combinations:
+            for i in v:
+                temp.append({**c, k : i})
+        combinations = temp
+    return combinations
+
+
 def troca(arr, a, b):
     val = arr[a]
     arr[a] = arr[b]

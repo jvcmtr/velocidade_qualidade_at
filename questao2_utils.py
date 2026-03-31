@@ -1,4 +1,5 @@
 import random
+from utils import *
 
 def ordenado(n_elementos):
     return([*range(1, n_elementos+1)])
@@ -22,16 +23,6 @@ def aleatorio(n_elementos):
     for i in range(n_elementos):
         arr.append(random.randrange(n_elementos*2))
     return arr
-
-def all_possible_combinations(**kwargs):
-    combinations = [{}]
-    for k, v in kwargs.items():
-        temp = []
-        for c in combinations:
-            for i in v:
-                temp.append({**c, k : i})
-        combinations = temp
-    return combinations
 
 def get_test_cases(tamanhos, geradores, algoritimos):
     cases = all_possible_combinations(TAMANHO=tamanhos, GERADORES=geradores, ALGORITIMO=algoritimos)  
