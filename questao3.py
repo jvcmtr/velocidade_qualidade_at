@@ -122,7 +122,7 @@ def test(algoritimos, tamanhos, duplicidades, relative_ks, verbose=False, print_
         if(print_output):
             dt.append([f"{size}", f"{dup_rate * 100}%", str(k), f"{rel_k*100}%" , algotitimo, f"{avg_ms:.2f} ms" ])
         if(verbose):
-            print(f"Caso de teste {i+1}/{len(cases)} executado em {total:.4f} segundos. \t n_itens\"{size}\"; \t k\"{k}\"; \t  algotitimo:\"{algotitimo}\";")
+            print(f"Caso de teste {i+1}/{len(cases)} executado em {total:.4f} segundos. \t n_itens\"{size}\"; \t k\"{k}\"; \t  algotitimo:\"{algotitimo}\";", end="\r")
     
     # Printa os resultados
     if print_output:

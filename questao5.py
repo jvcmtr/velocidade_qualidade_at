@@ -75,7 +75,7 @@ def test(SIZES, ALGORITHMS, ITERATIONS, verbose=True):
                 tree_sizes[idx] = arvore_aleatoria(c["SIZE"])
                 delta = time.time() - start
                 if verbose and i%100 ==0:
-                    print(f"Arvore teste {len(tree_sizes.items())}/{total_trees} gerada em {(delta*1000):.2f} milisegundos \t\t SIZE:{c['SIZE']}")
+                    print(f"Arvore teste {len(tree_sizes.items())}/{total_trees} gerada em {(delta*1000):.2f} milisegundos \t\t SIZE:{c['SIZE']}", end="\r")
             c["DATA"] = tree_sizes[idx]
     # Preparando dados de output
     dt = []
@@ -101,7 +101,7 @@ def test(SIZES, ALGORITHMS, ITERATIONS, verbose=True):
         dt.append([ size, name, ITERATIONS, f"{avg:.4f}s", len(result)])
 
         if verbose:
-            print(f"Teste {count}/{len(cases)} executado em {total:.2f} segundos \tSize:{size} \tIterations:{ITERATIONS} \tAlgorithm:{name}")
+            print(f"Teste {count}/{len(cases)} executado em {total:.2f} segundos \tSize:{size} \tIterations:{ITERATIONS} \tAlgorithm:{name}", end="\r")
     
     print_table(dt)
     
