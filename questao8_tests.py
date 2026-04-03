@@ -52,7 +52,7 @@ def get_weight_list(size, dup=0):
     return ItemsValor0(data)
 
 def get_test_cases():
-    TAMANHOS = [5, 10, 15]
+    TAMANHOS = [1,2,3,4,5,6,7,8,9,10] #[5, 10, 15]
     DUP = [0, 0.5, 1]
     cases = []
     for t in TAMANHOS:

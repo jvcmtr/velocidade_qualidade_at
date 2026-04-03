@@ -21,8 +21,8 @@ def _knapsack(target, items, _recursive_self=None, **kwargs):
     array = [*items] 
 
     for i in items:
-        array.remove(i) # Alterar diretamente o array aqui evita duplicatas
         if i.w <= target:
+            array.remove(i) # Alterar diretamente o array aqui evita duplicatas
             
             # Solução do subproblema
             subproblema, meta = _recursive_self(target-i.w, array, _recursive_self, **kwargs).values()
